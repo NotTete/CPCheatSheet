@@ -12,15 +12,13 @@
 
 #include "ModMulLL.h"
 
-bool isPrime(ull n) {
-	if (n < 2 || n % 6 % 4 != 1) return (n | 1) == 3;
-	ull A[] = {2, 325, 9375, 28178, 450775, 9780504, 1795265022},
-	    s = __builtin_ctzll(n-1), d = n >> s;
-	for (ull a : A) {   // ^ count trailing zeroes
-		ull p = modpow(a%n, d, n), i = s;
-		while (p != 1 && p != n - 1 && a % n && i--)
-			p = modmul(p, p, n);
-		if (p != n-1 && i != s) return 0;
+bool MillerRabin(unsigned int n) { // returns true if n is prime, else returns false.
+	unsigned int r = __builtin_ctzll(n-1); int d = n >> r;
+	for (int a : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41}) {
+		if (n == a) return true;
+		unsigned int x = modpow(a, d, n), res = !(x == 1 || x == n - 1);
+		for(int i = 1; i < r; i++) x = (__int128)x*x%n, res&=(x!=n-1);
+		if(res) return false;
 	}
-	return 1;
+	return (n>=2);
 }
