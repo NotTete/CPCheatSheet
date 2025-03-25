@@ -8,6 +8,17 @@
 	\kactlimport{ModSum.h}
 	\kactlimport{ModMulLL.h}
 	\kactlimport{ModSqrt.h}
+	\kactlimport{PrimRoot.h}
+	
+	\subsection{Digital Root}
+	Given an integer $n$ and a base $b$. We call the digital root,$db_b(n)$, of $n$ the sum of its digits in the base b:
+	$db_b(n) = 1 + ((n-1) \mod (b-1))$
+	\begin{enumerate}
+		\item $db_b(x+y) = db_b(db_b(x)+db_b(y))$
+		\item $db_b(xy) = db_b(db_b(x)db_b(y))$
+		\item $db_b(x-y) \equiv db_b(x)-db_b(y) \pmod{b-1}$
+	\end{enumerate}
+
 
 \section{Primality}
 	%\kactlimport{FastEratosthenes.h}
