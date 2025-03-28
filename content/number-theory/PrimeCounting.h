@@ -2,8 +2,8 @@
  * Author: N41h_Dr3s
  * Date: 2025-03-16
  * Description: Given an integer it gives you $\pi$(n). 
- * Time: O(n^{3/4})
- * Status: teted only with completly multipicative functions
+ * Time: O(n^{3/4}F(n) + \sqrt{n}PREF(n))
+ * Status: tested only with completly multipicative functions
  */
 #pragma once
 int count_primes(int n) { 

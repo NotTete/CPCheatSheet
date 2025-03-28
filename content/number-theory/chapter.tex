@@ -3,10 +3,9 @@
 \section{Modular arithmetic}
 	%\kactlimport{ModularArithmetic.h}
 	\kactlimport{ModInverse.h}
-	\kactlimport{ModPow.h}
+	\kactlimport{ModMulLL.h}
 	\kactlimport{ModLog.h}
 	\kactlimport{ModSum.h}
-	\kactlimport{ModMulLL.h}
 	\kactlimport{ModSqrt.h}
 	\kactlimport{PrimRoot.h}
 	
@@ -64,15 +63,12 @@
  \kactlimport{PrimeCounting.h}
 \subsection{Möbius function}
 \[
-	\mu(n) = \begin{cases} 0 & n \textrm{ is not square free}\\ 1 & n \textrm{ has even number of prime factors}\\ -1 & n \textrm{ has odd number of prime factors}\\\end{cases}
+	\mu(n) = \begin{cases} 0 & n \textrm{ is not square free}\\ (-1)^{\Omega(n)} & \textrm{otherwise}\\\end{cases}
 \]
  \[ g(n) = \sum_{1 \leq m \leq n} f\left(\left\lfloor\frac{n}{m}\right \rfloor \right) \Leftrightarrow f(n) = \sum_{1\leq m\leq n} \mu(m)g\left(\left\lfloor\frac{n}{m}\right\rfloor\right)\]
  \[(f*g)(n)= \sum_{d|n}f(d)g\left(\frac{n}{d}\right)\]
  \begin{enumerate}
-	\item \textbf{Associativity}: $(f*g)*h = f*(g*h)$
-	\item \textbf{Commutativity}: $f*g = g*f$
 	\item \textbf{Distributive}: $f*(g+h) = f*g + f*h$
-	\item \textbf{Identity element}: $f*\epsilon = \epsilon*f=f$
 	\item \textbf{Möbius inversion}: $f*1=g \iff g*\mu=f$
  \end{enumerate}
 
@@ -83,7 +79,7 @@
 	&\sigma_k = Id_k* 1 & \sigma_0^3*1 = (\sigma_0 *1)^2 \\
 	&\omega = 1_{\mathbb{P}}*1 & |\mu|*1= 2^\omega \\
  \end{align*}
- Where $\mathcal{P}$ is the set of prime powers and $\mathbb{P}$ is the set of prime numbers.
+ $\mathcal{P}$ are the prime powers and $\mathbb{P}$ the primes.
 \subsection{Multiplicative functions}
 	\kactlimport{LinearSieve.h}
 	\kactlimport{PrefixSumOpt.h}

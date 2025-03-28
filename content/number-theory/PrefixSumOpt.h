@@ -8,14 +8,10 @@
  */
 #pragma once
 unordered_map<int, int> mem;
-int calc (int x) {
-  if (x <= 0) return 0;
-  if (x <= th) return p_f(x);
+int calc (int x, int ans = 0) {
+  if(x<= th) return (x<=0? 0: p_f(x));
   if(mem.count(x) != 0) return mem[x];
-  int ans = 0;
-  for (int i = 2, la; i <= x; i = la + 1) {
-    la = x/(x/i);
-    ans += (p_g(la)-p_g(i-1))*calc(x / i);
-  }
+  for (int i = 2, la; i <= x; i = la + 1) 
+    ans += (p_g(la = x/(x/i))-p_g(i-1))*calc(x / i);
   return mem[x] = (p_c(x) - ans)/p_g(1);
 }
