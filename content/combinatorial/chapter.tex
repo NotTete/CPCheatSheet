@@ -18,7 +18,7 @@
 		 \[ {\frac {1}{|G|}}\sum _{{g\in G}}|X^{g}|, \]
 		 where $X^{g}$ are the elements fixed by $g$ ($g.x = x$).
 
-		 If $f(n)$ counts ``configurations'' (of some sort) of length $n$, we can ignore rotational symmetry using $G = \mathbb Z_n$ to get
+		 If $f(n)$ counts ``configurations'' (of some sort) of length $n$ %, we can ignore rotational symmetry using $G = \mathbb Z_n$ to get
 		 \[ g(n) = \frac 1 n \sum_{k=0}^{n-1}{f(\text{gcd}(n, k))} = \frac 1 n \sum_{k|n}{f(k)\phi(n/k)}. \]
 
 \section{Partitions and subsets}
@@ -49,11 +49,11 @@
 		\[ \sum_{i=1}^n n^m = \frac{1}{m+1} \sum_{k=0}^m \binom{m+1}{k} B_k \cdot (n+1)^{m+1-k} \]
 		\normalsize
 
-		Euler-Maclaurin formula for infinite sums:
-		\small
-		\[ \sum_{i=m}^{\infty} f(i) = \int_m^\infty f(x) dx - \sum_{k=1}^\infty \frac{B_k}{k!}f^{(k-1)}(m) \]
-		\[ \approx \int_{m}^\infty f(x)dx + \frac{f(m)}{2} - \frac{f'(m)}{12} + \frac{f'''(m)}{720} + O(f^{(5)}(m)) \]
-		\normalsize
+		% Euler-Maclaurin formula for infinite sums:
+		% \small
+		% \[ \sum_{i=m}^{\infty} f(i) = \int_m^\infty f(x) dx - \sum_{k=1}^\infty \frac{B_k}{k!}f^{(k-1)}(m) \]
+		% \[ \approx \int_{m}^\infty f(x)dx + \frac{f(m)}{2} - \frac{f'(m)}{12} + \frac{f'''(m)}{720} + O(f^{(5)}(m)) \]
+		% \normalsize
 
 	\subsection{Stirling numbers of the first kind}
 		Number of permutations on $n$ items with $k$ cycles.

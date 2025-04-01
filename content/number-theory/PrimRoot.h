@@ -11,6 +11,7 @@
  * if $n$ is $2 \cdot p^k$ and $g$ is a primitive root of $p^k$:\\
  *  $g$ is odd $\iff g$ is a primitive root of $n$\\
  * 	$g$ is even $\iff g+p^k$ is a primitive root of $n$\\
+ * There are $\phi(\phi(p^a))$ many. For $a > 2$, the group $\mathbb Z_{2^a}^\times \cong \mathbb Z_2 \times \mathbb Z_{2^{a-2}}$.
  * Time: Assuming the generalized Riemann hypothesis, $O(\log^8 n)$
  * Status:
  */
