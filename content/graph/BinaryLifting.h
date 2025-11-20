@@ -11,28 +11,18 @@
  */
 #pragma once
 
-vector<vi> treeJump(vi& P){
-	int on = 1, d = 1;
-	while(on < sz(P)) on *= 2, d++;
-	vector<vi> jmp(d, P);
-	rep(i,1,d) rep(j,0,sz(P))
-		jmp[i][j] = jmp[i-1][jmp[i-1][j]];
-	return jmp;
-}
+int ln = log2(n)+2;
+for (int u = 0; u < n; u++) up[u][0] = parent[u];
+for (int i = 1; i < ln; i++)
+    for (int u = 0; u < n; u++)
+        up[u][i] = up[up[u][i-1]][i-1];
 
-int jmp(vector<vi>& tbl, int nod, int steps){
-	rep(i,0,sz(tbl))
-		if(steps&(1<<i)) nod = tbl[i][nod];
-	return nod;
-}
-
-int lca(vector<vi>& tbl, vi& depth, int a, int b) {
-	if (depth[a] < depth[b]) swap(a, b);
-	a = jmp(tbl, a, depth[a] - depth[b]);
-	if (a == b) return a;
-	for (int i = sz(tbl); i--;) {
-		int c = tbl[i][a], d = tbl[i][b];
-		if (c != d) a = c, b = d;
-	}
-	return tbl[0][a];
-}
+if (depth[u] < depth[v]) swap(u, v);
+for (int i = ln-1; depth[u] > depth[v]; i--)
+    if (depth[up[u][i]] >= depth[v])
+        u = up[u][i];
+if (u == v) return;
+for (int i = ln-1; i >= 0; i--)
+    if (up[u][i] != up[v][i])
+        u = up[u][i], v = up[v][i];
+u = up[u][0], v = up[v][0];
