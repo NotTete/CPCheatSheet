@@ -11,24 +11,18 @@
  */
 #pragma once
 
-struct RollbackUF {
-	vi e; vector<pii> st;
-	RollbackUF(int n) : e(n, -1) {}
-	int size(int x) { return -e[find(x)]; }
-	int find(int x) { return e[x] < 0 ? x : find(e[x]); }
-	int time() { return sz(st); }
-	void rollback(int t) {
-		for (int i = time(); i --> t;)
-			e[st[i].first] = st[i].second;
-		st.resize(t);
-	}
-	bool join(int a, int b) {
-		a = find(a), b = find(b);
-		if (a == b) return false;
-		if (e[a] > e[b]) swap(a, b);
-		st.push_back({a, e[a]});
-		st.push_back({b, e[b]});
-		e[a] += e[b]; e[b] = a;
-		return true;
-	}
-};
+
+vi rt; vpii rb;
+int root(int u) { return rt[u] < 0 ? u : r[u] = root(rt[u]); }
+void join(int u, int v) {
+    u = root(u), v = root(v);
+    if (-rt[u] > -rt[v]) swap(u, v);
+    if (u == v) return;
+    rb.push_back({u, rt[u]});
+    rt[v] += rt[u], rt[u] = v;
+}
+void rollback() { // Remove Path Compression
+    auto [u, sz] = rb.back(); rb.pop_back();
+    if (rt[u] < 0) return;
+    rt[rt[u]] -= sz; rt[u] = sz;
+}

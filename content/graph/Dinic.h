@@ -32,7 +32,7 @@ while (true) {
     for (auto v : e[u]) {
       if (lev[v] == -1 && am[u][v] > 0) {
         lev[v] = lev[u]+1;
-        if (v == t) break;
+        if (v == t) goto endbfs;
         q.push(v);
       }
     }
