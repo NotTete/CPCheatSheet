@@ -10,22 +10,22 @@
  */
 #pragma once
 
-struct Tree {
-	typedef int T;
-	static constexpr T unit = INT_MIN;
-	T f(T a, T b) { return max(a, b); } // (any associative fn)
-	vector<T> s; int n;
-	Tree(int n = 0, T def = unit) : s(2*n, def), n(n) {}
-	void update(int pos, T val) {
-		for (s[pos += n] = val; pos /= 2;)
-			s[pos] = f(s[pos * 2], s[pos * 2 + 1]);
-	}
-	T query(int b, int e) { // query [b, e)
-		T ra = unit, rb = unit;
-		for (b += n, e += n; b < e; b /= 2, e /= 2) {
-			if (b % 2) ra = f(ra, s[b++]);
-			if (e % 2) rb = f(s[--e], rb);
-		}
-		return f(ra, rb);
-	}
+using T = int;
+const T id = 0;
+T f(T a, T b) { return a+b; }
+struct segment_tree {
+  int n; vector<T> st;
+  segment_tree(int n) : n(n), st(2*n, id) {}
+  T query(int l, int r) { // query [l, r)
+    T rl = id, rr = id;
+    for (l += n, r += n; l <= r; l /= 2, r /= 2) {
+      if (l%2 == 1) rl = f(rl, st[l++]);
+      if (r%2 == 1) rr = f(st[--r], rr);
+    }
+    return f(rl, rr);
+  }
+  void set(int i, T x) {
+    for (st[i += n] = x; i /= 2;)
+      st[i] = f(st[i*2], st[i*2+1]);
+  }
 };
