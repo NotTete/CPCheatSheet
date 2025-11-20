@@ -24,9 +24,8 @@ while (true) {
     }
   }
   if (par[t] == -1) break;
-  int c = t;
-  while (par[c] != c) 
-    am[par[c]][c] -= cost[t],
-    am[c][par[c]] += cost[t], c = par[c];
+  int u = par[t], v = t;
+  while (u != v)
+    am[u][v] -= cost[t], am[v][u] += cost[t], v = u, u = par[u];
   r += cost[t];
 }
