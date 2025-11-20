@@ -15,18 +15,19 @@
  */
 #pragma once
 
-vector<int> low, tin, sccst, scc;
-int dfst = 0, scci = 0;
+vi low, tin, scc; int dfst = 0, scci = 0;
 void dfs(int u) {
   low[u] = tin[u] = dfst++;
-  sccst.push_back(u);
+  scc.push_back(u);
   for (auto v : e[u]) {
     if (tin[v] == -1) dfs(v);
     if (scc[v] == -1) low[u] = min(low[u], low[v]);
   }
   if (low[u] == tin[u]) {
-    int v; do {
-      scc[v = sccst.back()] = scci; sccst.pop_back();
-    } while (v != u); scci++;
+    while (scc.back() != u)
+      scc[scc.back()] = scci, scc.pop_back();
+    scc[scc.back()] = scci++, scc.pop_back();
   }
 }
+tin.assign(n, -1), low.resize(n), dfst = 0, scci = 0;
+dfs(s);
