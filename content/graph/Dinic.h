@@ -36,7 +36,7 @@ while (true) {
         q.push(v);
       }
     }
-  }
+  } endbfs:
   if (lev[t] == -1) break;
   ei.assign(n, 0);
   while (int f = dfs(s, INF)) r += f;
