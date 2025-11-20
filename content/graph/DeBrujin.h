@@ -2,7 +2,8 @@
  * Author: Dalopir
  * Date: 2025-11-20
  * Description: Confio en Tete
- * Time: O()
+ * Number of sequences: $\frac{k!^{k^{n-1}}}{k^n}$
+ * Time: O(k^n)
  */
 #pragma once
 
