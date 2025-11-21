@@ -22,19 +22,18 @@ Products of three coordinates are used in intermediate steps so watch out for ov
  */
 #pragma once
 
-#include "Point.h"
-#include "OnSegment.h"
-
-template<class P> vector<P> segInter(P a, P b, P c, P d) {
-	auto oa = c.cross(d, a), ob = c.cross(d, b),
-	     oc = a.cross(b, c), od = a.cross(b, d);
-	// Checks if intersection is single non-endpoint point.
-	if (sgn(oa) * sgn(ob) < 0 && sgn(oc) * sgn(od) < 0)
-		return {(a * ob - b * oa) / (ob - oa)};
-	set<P> s;
-	if (onSegment(c, d, a)) s.insert(a);
-	if (onSegment(c, d, b)) s.insert(b);
-	if (onSegment(a, b, c)) s.insert(c);
-	if (onSegment(a, b, d)) s.insert(d);
-	return {all(s)};
+bool properInter(segment s, segment t, vec2d &out) {
+  uds oa = orient(t.a, t.b, s.a), ob = orient(t.a, t.b, s.b),
+    oc = orient(s.a, s.b, t.a),od = orient(s.a, s.b, t.b);
+  return lt(oa*ob, 0) && lt(oc*od, 0) ?
+    out = (s.a*ob - s.b*oa) / (ob-oa), true : false;
+}
+set<vec2d> inter(segment s, segment t) {
+  vec2d out; if (properInter(s, t, out)) return {out};
+  set<vec2d> r;
+  if (onSegment(t, s.a)) r.insert(s.a);
+  if (onSegment(t, s.b)) r.insert(s.b);
+  if (onSegment(s, t.a)) r.insert(t.a);
+  if (onSegment(s, t.b)) r.insert(t.b);
+  return r;
 }

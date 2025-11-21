@@ -18,11 +18,13 @@ Returns the shortest distance between point p and the line segment from point s 
  */
 #pragma once
 
-#include "Point.h"
-
-typedef Point<double> P;
-double segDist(P& s, P& e, P& p) {
-	if (s==e) return (p-s).dist();
-	auto d = (e-s).dist2(), t = min(d,max(.0,(p-s).dot(e-s)));
-	return ((p-s)*d-(e-s)*t).dist()/d;
+double dist(segment s, vec2d p) {
+  if (s.a == s.b) return (p-s.a).len();
+  line l(s.a, s.b);
+  return l.cmpProj(s.a, p) && l.cmpProj(p, s.b) ?
+    dist(p, l) : min((p-s.a).len(), (p-s.b).len());
+}
+double dist(segment s, segment t) {
+  vec2d i; if (properInter(s, t, i)) return 0;
+  return min({dist(s, t.a), dist(s, t.b), dist(t, s.a), dist(t, s.b)});
 }

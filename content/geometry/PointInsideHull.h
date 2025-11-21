@@ -12,21 +12,21 @@
  */
 #pragma once
 
-#include "Point.h"
-#include "sideOf.h"
-#include "OnSegment.h"
-
-typedef Point<ll> P;
-
-bool inHull(const vector<P>& l, P p, bool strict = true) {
-	int a = 1, b = sz(l) - 1, r = !strict;
-	if (sz(l) < 3) return r && onSegment(l[0], l.back(), p);
-	if (sideOf(l[0], l[a], l[b]) > 0) swap(a, b);
-	if (sideOf(l[0], l[a], p) >= r || sideOf(l[0], l[b], p)<= -r)
-		return false;
-	while (abs(a - b) > 1) {
-		int c = (a + b) / 2;
-		(sideOf(l[0], l[c], p) > 0 ? b : a) = c;
-	}
-	return sgn(l[a].cross(l[b], p)) < r;
+// -1 if strictly inside, 0 if on the polygon, 1 if strictly outside
+// it must be strictly convex, otherwise make it strictly convex first
+int in_convex(vector<vec2d> &p, const vec2d& x) { // O(log n)
+  int n = p.size(); assert(n >= 3);
+  int a = orientation(p[0], p[1], x), b = orientation(p[0], p[n - 1], x);
+  if (a < 0 || b > 0) return 1;
+  int l = 1, r = n - 1;
+  while (l + 1 < r) {
+    int mid = l + r >> 1;
+    if (orientation(p[0], p[mid], x) >= 0) l = mid;
+    else r = mid;
+  }
+  int k = orientation(p[l], p[r], x);
+  if (k <= 0) return -k;
+  if (l == 1 && a == 0) return 0;
+  if (r == n - 1 && b == 0) return 0;
+  return -1;
 }

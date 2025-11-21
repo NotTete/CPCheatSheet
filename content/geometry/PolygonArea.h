@@ -9,11 +9,8 @@
  */
 #pragma once
 
-#include "Point.h"
-
-template<class T>
-T polygonArea2(vector<Point<T>>& v) {
-	T a = v.back().cross(v[0]);
-	rep(i,0,sz(v)-1) a += v[i].cross(v[i+1]);
-	return a;
+uds areaPolygon(vector<vec2d> p) {
+  uds area = 0.0;
+  for (int i = 0, n = p.size(); i < n; i++) area += cross(p[i], p[(i+1)%n]);
+  return abs(area) / 2.0;
 }

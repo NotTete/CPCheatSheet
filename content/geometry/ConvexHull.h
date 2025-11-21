@@ -18,18 +18,23 @@ Points on the edge of the hull between two other points are not considered part 
 */
 #pragma once
 
-#include "Point.h"
+vector<vec2d> convex_hull(vector<vec2d> &p) {
+  if (p.size() <= 1) return p;
+  vector<vec2d> v = p, up, dn;
+  sort(v.begin(), v.end());
+  for (auto& p : v) {
+    while (dn.size() > 1 && orientation(dn[dn.size() - 2], dn.back(), p) < 0)
+      dn.pop_back();
 
-typedef Point<ll> P;
-vector<P> convexHull(vector<P> pts) {
-	if (sz(pts) <= 1) return pts;
-	sort(all(pts));
-	vector<P> h(sz(pts)+1);
-	int s = 0, t = 0;
-	for (int it = 2; it--; s = --t, reverse(all(pts)))
-		for (P p : pts) {
-			while (t >= s + 2 && h[t-2].cross(h[t-1], p) <= 0) t--;
-			h[t++] = p;
-		}
-	return {h.begin(), h.begin() + t - (t == 2 && h[0] == h[1])};
+    while (up.size() > 1 && orientation(up[up.size() - 2], up.back(), p) > 0)
+      up.pop_back();
+    up.push_back(p); dn.push_back(p);
+  }
+  v = dn;
+  if (v.size() > 1) v.pop_back();
+  reverse(up.begin(), up.end());
+  up.pop_back();
+  for (auto& p : up) v.push_back(p);
+  if (v.size() == 2 && v[0] == v[1]) v.pop_back();
+  return v;
 }
