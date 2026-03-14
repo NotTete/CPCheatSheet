@@ -53,6 +53,16 @@ source, license and time complexity.
 kactl.pdf is to be kept to 25 pages + cover page.
 Occasionally the generated kactl.pdf is committed to the repo for convenience, but not too often because it makes git operations slower.
 
+Lines in the PDF are 55 chars long.
+
+### Vim
+
+`:set shiftwidth=2`
+`:set tabstop=2`
+`:set colorcolumn=55`
+
+If a line passes the column, it will wrap when generating the pdf file.
+
 ## Testing
 
 KACTL aims for a high level of confidence in algorithm correctness.
