@@ -10,7 +10,7 @@
 #pragma once
 
 typedef double uds;
-const uds EPS = 1e-12;
+const uds EPS = 1e-9; // use 1e-12 only with long double
 int sign(uds x) { return x < -EPS ? -1 : x > EPS; }
 bool eq(uds a, uds b) { return abs(a-b) <= EPS; }
 bool lt(uds a, uds b) { return a < b && abs(a-b) > EPS; }
@@ -33,7 +33,7 @@ struct vec2d {
   bool operator<(const vec2d o) const { return lt(x, o.x) || eq(x, o.x) && lt(y, o.y); }
 
   uds len2() const { return x*x + y*y; }
-  double len() const { return sqrt(len2()); }
+  double len() const { return sqrt(max((uds)0, len2())); }
 
   vec2d perp() { return {y, -x}; }
 };
@@ -42,5 +42,5 @@ uds cross(vec2d a, vec2d b) { return a.x*b.y - a.y*b.x; }
 vec2d proj(vec2d u, vec2d v) { return u*dot(u, v)/dot(u, u); }
 uds orient(vec2d a, vec2d b, vec2d c) { return cross(b-a, c-a); }
 uds dist2(vec2d a, vec2d b) {return dot(a-b,a-b);}
-double dist(vec2d a, vec2d b) {return sqrt(dist2(a,b)); }
+double dist(vec2d a, vec2d b) {return sqrt(max((uds)0, dist2(a,b))); }
 int orientation(vec2d a, vec2d b, vec2d c){return sign(orient(a,b,c));}

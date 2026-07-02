@@ -16,8 +16,8 @@ struct HP {
         int fp = (lt(p.y,0) || (eq(p.y,0) && lt(p.x,0)));
         int fq = (lt(q.y,0) || (eq(q.y,0) && lt(q.x,0)));
         if (fp != fq) return fp == 0;
-        if (cross(p, q)) return gt(cross(p, q),0);
-        return lt(cross(p, rhs.b - a),0);
+        if (!eq(cross(p, q), 0)) return gt(cross(p, q), 0);
+        return lt(cross(p, rhs.b - a), 0);
     }
     vec2d line_line_intersection(vec2d a, vec2d b, vec2d c, vec2d d) {
         b = b - a; d = c - d; c = c - a;
@@ -27,8 +27,9 @@ struct HP {
         return line_line_intersection(a, b, v.a, v.b);
     }
 };
-int check(HP a, HP b, HP c) {
-    return cross(a.b - a.a, b.intersection(c) - a.a) > -EPS; //-eps to include polygons of zero area (straight lines, points)
+bool check(HP a, HP b, HP c) {
+    // change ge to gt to exclude degenerate polygons (lines, points)
+    return ge(cross(a.b - a.a, b.intersection(c) - a.a), 0);
 }
 // consider half-plane of counter-clockwise side of each line
 // if lines are not bounded add infinity rectangle
@@ -37,27 +38,28 @@ int check(HP a, HP b, HP c) {
 vector<vec2d> half_plane_intersection(vector<HP> h) {
     sort(h.begin(), h.end());
     vector<HP> tmp;
-    for (int i = 0; i < h.size(); i++) {
-        if (!i || cross(h[i].b - h[i].a, h[i - 1].b - h[i - 1].a)) {
+    for (int i = 0; i < (int)h.size(); i++) {
+        // eps-sensitive dedup: skip parallel half-planes pointing same direction
+        if (!i || !eq(cross(h[i].b - h[i].a, h[i - 1].b - h[i - 1].a), 0)) {
             tmp.push_back(h[i]);
         }
     }
     h = tmp;
     vector<HP> q(h.size() + 10);
     int qh = 0, qe = 0;
-    for (int i = 0; i < h.size(); i++) {
+    for (int i = 0; i < (int)h.size(); i++) {
         while (qe - qh > 1 && !check(h[i], q[qe - 2], q[qe - 1])) qe--;
         while (qe - qh > 1 && !check(h[i], q[qh], q[qh + 1])) qh++;
         q[qe++] = h[i];
     }
     while (qe - qh > 2 && !check(q[qh], q[qe - 2], q[qe - 1])) qe--;
     while (qe - qh > 2 && !check(q[qe - 1], q[qh], q[qh + 1])) qh++;
-    vector<HP> res; 
+    vector<HP> res;
     for (int i = qh; i < qe; i++) res.push_back(q[i]);
     vector<vec2d> hull;
-    if (res.size() > 2) {
-        for (int i = 0; i < res.size(); i++) {
-            hull.push_back(res[i].intersection(res[(i + 1) % ((int)res.size())]));
+    if ((int)res.size() > 2) {
+        for (int i = 0; i < (int)res.size(); i++) {
+            hull.push_back(res[i].intersection(res[(i + 1) % (int)res.size()]));
         }
     }
     return hull;

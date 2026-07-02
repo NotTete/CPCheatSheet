@@ -23,10 +23,10 @@ z = r\cos\theta & \phi = \textrm{atan2}(y,x)
 	\kactlimport{Point.h}
 	\kactlimport{Line.h}
 	\kactlimport{lineDistance.h}
-	\kactlimport{SegmentDistance.h}
 	\kactlimport{Bisector.h}
 	\kactlimport{Segment.h}
 	\kactlimport{SegmentIntersection.h}
+	\kactlimport{SegmentDistance.h}
 	\kactlimport{lineIntersection.h}
 	\kactlimport{sideOf.h}
 	\kactlimport{linearTransformation.h}
@@ -47,6 +47,7 @@ z = r\cos\theta & \phi = \textrm{atan2}(y,x)
 	\kactlimport{PointInPolygon.h}
 	\kactlimport{IsConvex.h}
 	\kactlimport{MaxDistPolToPol.h}
+	\kactlimport{MinkowskiSum.h}
 
 \subsection{Triangles}
 Side lengths: $a,b,c$\\
@@ -60,13 +61,14 @@ Law of sines: $\dfrac{\sin\alpha}{a}=\dfrac{\sin\beta}{b}=\dfrac{\sin\gamma}{c}=
 Law of cosines: $a^2=b^2+c^2-2bc\cos\alpha$\\
 Law of tangents: $\dfrac{a+b}{a-b}=\dfrac{\tan\dfrac{\alpha+\beta}{2}}{\tan\dfrac{\alpha-\beta}{2}}$\\
 
-	\kactlimport{InsidePolygon.h}
+	% \kactlimport{InsidePolygon.h} % redundant: PointInPolygon is more precise
 	\kactlimport{PolygonArea.h}
-	% \kactlimport{PolygonCenter.h}
+	\kactlimport{PolygonCenter.h}
 	\kactlimport{PolygonCut.h}
 	% \kactlimport{PolygonUnion.h}
 	\kactlimport{ConvexHull.h}
-	\kactlimport{HullDiameter.h}
+	\kactlimport{RotatingCalipers.h}
+	% \kactlimport{HullDiameter.h} % replaced by RotatingCalipers.h
 	\kactlimport{PointInsideHull.h}
 	% \kactlimport{LineHullIntersection.h}
 

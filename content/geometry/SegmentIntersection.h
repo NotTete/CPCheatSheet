@@ -24,8 +24,8 @@ Products of three coordinates are used in intermediate steps so watch out for ov
 
 bool properInter(segment s, segment t, vec2d &out) {
   uds oa = orient(t.a, t.b, s.a), ob = orient(t.a, t.b, s.b),
-    oc = orient(s.a, s.b, t.a),od = orient(s.a, s.b, t.b);
-  return lt(oa*ob, 0) && lt(oc*od, 0) ?
+    oc = orient(s.a, s.b, t.a), od = orient(s.a, s.b, t.b);
+  return sign(oa)*sign(ob) < 0 && sign(oc)*sign(od) < 0 ?
     out = (s.a*ob - s.b*oa) / (ob-oa), true : false;
 }
 set<vec2d> inter(segment s, segment t) {

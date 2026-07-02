@@ -15,10 +15,10 @@
 int tangents(vec2d o1, double r1, vec2d o2, double r2, bool inner, vector<pair<vec2d,vec2d>> &out) {
   if (inner) r2 = -r2;
   vec2d d = o2-o1;
-  double dr = r1-r2, d2 = (d.len2()), h2 = d2-dr*dr;
-  if (eq(d2, 0) || lt(h2, 0)) {div0(h2); return 0;}
-  for (double sign : {-1,1}) {
-    vec2d v = (d*dr + (d.perp())*sqrt(h2)*sign)/d2;
+  double dr = r1-r2, d2 = d.len2(), h2 = d2-dr*dr;
+  if (eq(d2, 0) || lt(h2, 0)) { div0(h2); return 0; }
+  for (double sgn : {-1.0, 1.0}) {
+    vec2d v = (d*dr+d.perp()*sqrt(max(0.,h2))*sgn)/d2;
     out.push_back({o1 + v*r1, o2 + v*r2});
   }
   return 1 + (gt(h2, 0));

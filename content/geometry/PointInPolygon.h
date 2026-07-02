@@ -9,7 +9,7 @@
 bool above(vec2d a, vec2d p) {return ge(p.y, a.y);}
 // check if [PQ] crosses ray from A
 bool crossesRay(vec2d a, vec2d p, vec2d q) {
-  return gt((above(a,q) - above(a,p)) * orient(a,p,q), 0);
+  return gt((above(a,q)-above(a,p))*orient(a,p,q),0);
 }
 // if strict, returns false when A is on the boundary
 bool inPolygon(vector<vec2d> p, vec2d a, bool strict = true) {

@@ -11,19 +11,25 @@
 
 #include "Point.h"
 
-typedef Point<ll> P;
-pair<P, P> closest(vector<P> v) {
+pair<vec2d, vec2d> closest(vector<vec2d> v) {
 	assert(sz(v) > 1);
-	set<P> S;
-	sort(all(v), [](P a, P b) { return a.y < b.y; });
-	pair<ll, pair<P, P>> ret{LLONG_MAX, {P(), P()}};
+	// Exact comparator by x then y for the sweep-line set
+	auto cmp = [](const vec2d& a, const vec2d& b) {
+		return a.x != b.x ? a.x < b.x : a.y < b.y;
+	};
+	set<vec2d, decltype(cmp)> S(cmp);
+	sort(all(v), [](vec2d a, vec2d b) {
+		return a.y < b.y || (a.y == b.y && a.x < b.x);
+	});
+	pair<uds, pair<vec2d, vec2d>> ret{1e18, {vec2d(), vec2d()}};
 	int j = 0;
-	for (P p : v) {
-		P d{1 + (ll)sqrt(ret.first), 0};
-		while (v[j].y <= p.y - d.x) S.erase(v[j++]);
+	for (vec2d p : v) {
+		uds dx = 1 + sqrt(max((uds)0, ret.first));
+		vec2d d{dx, 0};
+		while (v[j].y <= p.y - dx) S.erase(v[j++]);
 		auto lo = S.lower_bound(p - d), hi = S.upper_bound(p + d);
 		for (; lo != hi; ++lo)
-			ret = min(ret, {(*lo - p).dist2(), {*lo, p}});
+			ret = min(ret, {dist2(*lo, p), {*lo, p}});
 		S.insert(p);
 	}
 	return ret.second;

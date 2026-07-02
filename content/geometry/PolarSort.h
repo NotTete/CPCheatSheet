@@ -3,24 +3,22 @@
  * Date: 2025-4-1
  * License: CC0
  * Source: https://codeforces.com/blog/entry/72815
- * Description: Given $N$ points in the plane, 
- * it sorts the points looking angle with center at (0,0)
+ * Description: Given $N$ points in the plane,
+ * it sorts the points looking angle with center at o, reference direction u.
  * Time: O(N \log N)
  */
 #pragma once
-#include<Point.h>
-template <typename T>
-void polarSort(vector<Point<T>> &v, Point<T> o, Point<T> u = {1, 0}) {
-    sort(v.begin(), v.end(), [&](const Point<T> &a, const Point<T> &b) {
-        Point<T> oa = a-o, ob = b-o;
-        int xa = u.cross(oa), xb = u.cross(ob);
-        if (xa == 0 && u.dot(oa) >= 0) return true; // angle(oa, u) = 0
-        if (xb == 0 && u.dot(ob) >= 0) return false; // angle(ob, u) = 0
-        if (xa*xb >= 0) { // Same side (up/down)
-            int x = ob.cross(oa);
-            if (x < 0) return true;
-            else if (x > 0) return false;
-            return oa.dist2() < ob.dist2();
+void polarSort(vector<vec2d> &v, vec2d o, vec2d u = {1, 0}) {
+    sort(v.begin(), v.end(), [&](const vec2d &a, const vec2d &b) {
+        vec2d oa = a-o, ob = b-o;
+        // Store signs to avoid precision issues from large products
+        int xa = sign(cross(u, oa)), xb = sign(cross(u, ob));
+        if (xa == 0 && ge(dot(u, oa), 0)) return true;  // angle(oa,u) = 0
+        if (xb == 0 && ge(dot(u, ob), 0)) return false; // angle(ob,u) = 0
+        if (xa == xb) { // Same half-plane
+            int xc = sign(cross(ob, oa));
+            if (xc != 0) return xc > 0;
+            return lt(oa.len2(), ob.len2());
         }
         return xa > 0;
     });

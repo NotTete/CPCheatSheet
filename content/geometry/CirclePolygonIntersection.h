@@ -10,21 +10,18 @@
  */
 #pragma once
 
-#include "../../content/geometry/Point.h"
-
-typedef Point<double> P;
-#define arg(p, q) atan2(p.cross(q), p.dot(q))
-double circlePoly(P c, double r, vector<P> ps) {
-	auto tri = [&](P p, P q) {
+#define arg(p, q) atan2(cross(p, q), dot(p, q))
+double circlePoly(vec2d c, double r, vector<vec2d> ps) {
+	auto tri = [&](vec2d p, vec2d q) {
 		auto r2 = r * r / 2;
-		P d = q - p;
-		auto a = d.dot(p)/d.dist2(), b = (p.dist2()-r*r)/d.dist2();
+		vec2d d = q - p;
+		auto a = dot(d, p)/d.len2(), b = (p.len2()-r*r)/d.len2();
 		auto det = a * a - b;
 		if (det <= 0) return arg(p, q) * r2;
-		auto s = max(0., -a-sqrt(det)), t = min(1., -a+sqrt(det));
+		auto s = max(0., -a-sqrt(max(0., det))), t = min(1., -a+sqrt(max(0., det)));
 		if (t < 0 || 1 <= s) return arg(p, q) * r2;
-		P u = p + d * s, v = q + d * (t-1);
-		return arg(p,u) * r2 + u.cross(v)/2 + arg(v,q) * r2;
+		vec2d u = p + d * s, v = q + d * (t-1);
+		return arg(p,u) * r2 + cross(u, v)/2 + arg(v,q) * r2;
 	};
 	auto sum = 0.0;
 	rep(i,0,sz(ps))

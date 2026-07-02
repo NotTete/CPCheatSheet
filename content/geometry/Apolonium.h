@@ -20,5 +20,5 @@ pair<vec2d, double> apollonius(vec2d p, vec2d q, double rp, double rq){
   c /= a ;
   vec2d o(g, h);
   double r = g * g + h * h - c ;
-  return {o,sqrt(r)};
+  return {o, sqrt(max(0., r))};
 }
