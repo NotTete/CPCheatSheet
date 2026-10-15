@@ -18,7 +18,7 @@ struct segment_tree {
   segment_tree(int n) : n(n), st(2*n, id) {}
   T query(int l, int r) { // query [l, r)
     T rl = id, rr = id;
-    for (l += n, r += n; l <= r; l /= 2, r /= 2) {
+    for (l += n, r += n; l < r; l /= 2, r /= 2) {
       if (l%2 == 1) rl = f(rl, st[l++]);
       if (r%2 == 1) rr = f(st[--r], rr);
     }
